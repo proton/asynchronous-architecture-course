@@ -1,1 +1,1 @@
-My homework for https://education.borshev.com/architecture course.
+Homework for [Asynchronous architecture course](https://education.borshev.com/architecture).
