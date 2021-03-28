@@ -57,3 +57,19 @@ app.delete('/users/:userId.json', (req, res) => {
     res.send('ok')
   })
 })
+
+app.get('/sign_in', (_req, res) => {
+  res.sendFile(path.join(__dirname + '/sign_in.html'))
+})
+
+app.post('/sign_in', (req, res) => {
+  User.where({ login: req.body.login, password: req.body.password }).findOne(function (err, user) {
+    if (err) return console.error(err)
+    if (user) {
+      const token = 'token'
+      res.send({ signedIn: true, token: token })
+    } else {
+      res.send({ signedIn: false, error: 'Invalid password' })
+    }
+  })
+})
