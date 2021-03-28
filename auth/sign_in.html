@@ -113,21 +113,25 @@
         }
       },
       methods: {
+        setToken(token) {
+          this.token = token
+          $cookies.set('token', token)
+        },
         signIn() {
           axios
             .post(`/sign_in`, this.loginData)
             .then(response => {
                 if(response.data.signedIn) {
-                  this.token = response.data.token
-                  $cookies.set('token', this.token)
+                  this.setToken(response.data.token)
                 } else {
                   this.error = response.data.error
                 }
               })
         },
         signOut() {
-          this.token = null
           this.error = null
+          this.setToken('')
+          this.loginData = {}
         }
       },
       computed: {
