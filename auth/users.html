@@ -86,6 +86,7 @@
           createUser() {
             axios.post(`/users.json`, this.newUser)
             this.updateUsers()
+            this.instantiateNewUser()
           }
         },
         mounted () {
