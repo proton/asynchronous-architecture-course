@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+app.use(express.json())
 
 const path = require('path')
 
@@ -37,6 +38,14 @@ app.get('/users.json', (_req, res) => {
   User.find({}, (err, users) => {
     if (err) return console.error(err)
     res.send(users.map(user => ({ id: user.id, login: user.login, role: user.role })))
+  })
+})
+
+app.post('/users.json', (req, res) => {
+  const user = new User(req.body)
+  user.save((err, _user) => {
+    if (err) return console.error(err)
+    res.send('ok')
   })
 })
 
