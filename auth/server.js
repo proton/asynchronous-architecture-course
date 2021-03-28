@@ -2,6 +2,13 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 
+const fs = require('fs')
+
+const privateKey = fs.readFileSync('private.key')
+const publicKey = fs.readFileSync('public.key')
+
+var jwt = require('jsonwebtoken')
+
 const path = require('path')
 
 const mongoose = require('mongoose')
@@ -62,12 +69,17 @@ app.get('/sign_in', (_req, res) => {
   res.sendFile(path.join(__dirname + '/sign_in.html'))
 })
 
+const generateToken = user => {
+  const payload = { login: user.login, role: user.role, id: user.id }
+  const token = jwt.sign(payload, privateKey, { algorithm: 'RS256' })
+  return token
+}
+
 app.post('/sign_in', (req, res) => {
   User.where({ login: req.body.login, password: req.body.password }).findOne(function (err, user) {
     if (err) return console.error(err)
     if (user) {
-      const token = 'token'
-      res.send({ signedIn: true, token: token })
+      res.send({ signedIn: true, token: generateToken(user) })
     } else {
       res.send({ signedIn: false, error: 'Invalid password' })
     }
