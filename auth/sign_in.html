@@ -121,7 +121,6 @@
                   this.token = response.data.token
                   $cookies.set('token', this.token)
                 } else {
-                  console.log(response)
                   this.error = response.data.error
                 }
               })
