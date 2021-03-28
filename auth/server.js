@@ -7,7 +7,7 @@ const fs = require('fs')
 const privateKey = fs.readFileSync('private.key')
 const publicKey = fs.readFileSync('public.key')
 
-var jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 
 const path = require('path')
 
@@ -84,4 +84,8 @@ app.post('/sign_in', (req, res) => {
       res.send({ signedIn: false, error: 'Invalid password' })
     }
   })
+})
+
+app.get('/public_key.json', (_req, res) => {
+  res.send({ key: publicKey.toString() })
 })
