@@ -39,3 +39,12 @@ app.get('/users.json', (_req, res) => {
     res.send(users.map(user => ({ id: user.id, login: user.login, role: user.role })))
   })
 })
+
+app.delete('/users/:userId.json', (req, res) => {
+  const userId = req.params.userId
+
+  User.findByIdAndDelete(userId, err => {
+    if (err) return console.error(err)
+    res.send('ok')
+  })
+})
