@@ -1,6 +1,22 @@
 version: '3.8'
 
 services:
+  popug_jira:
+    build:
+      context: ./popug_jira
+      dockerfile: Dockerfile
+    environment:
+      SIGN_IN_URL: "http://localhost:8001/sign_in"
+    volumes:
+      - ./tmp/popug_jira/db.sqlite:/app/db/development.sqlite3
+      - ./private/public.key:/app/config/auth_public.key
+    ports:
+      - 8002:3000
+    depends_on:
+      - auth
+    networks:
+      - local
+
   auth:
     build:
       context: ./auth
@@ -8,23 +24,13 @@ services:
     environment:
       DB_URL: auth_db:27017
       PORT: 8001
+    volumes:
+      - ./private/public.key:/app/auth_public.key
+      - ./private/public.key:/app/auth_private.key
     ports:
       - 8001:8001
     depends_on:
       - auth_db
-    networks:
-      - local
-
-  popug_jira:
-    build:
-      context: ./popug_jira
-      dockerfile: Dockerfile
-    volumes:
-      - ./tmp/popug_jira/db.sqlite:/app/db/development.sqlite3
-    ports:
-      - 8002:3000
-    depends_on:
-      - auth
     networks:
       - local
 

@@ -115,7 +115,7 @@
       methods: {
         setToken(token) {
           this.token = token
-          $cookies.set('token', token)
+          $cookies.set('auth_token', token)
         },
         signIn() {
           axios
@@ -151,7 +151,7 @@
         axios
           .get('/public_key.json')
           .then(response => (this.publicKey = response.data.key ))
-        this.token = $cookies.get('token')
+        this.token = $cookies.get('auth_token')
       }
     });
   </script>

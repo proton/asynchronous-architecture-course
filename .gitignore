@@ -1,5 +1,6 @@
 TODO
 /tmp
+/private
 *.swp
 node_modules
 *.key

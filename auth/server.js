@@ -4,8 +4,8 @@ app.use(express.json())
 
 const fs = require('fs')
 
-const privateKey = fs.readFileSync('private.key')
-const publicKey = fs.readFileSync('public.key')
+const privateKey = fs.readFileSync('auth_private.key')
+const publicKey = fs.readFileSync('auth_public.key')
 
 const jwt = require('jsonwebtoken')
 
