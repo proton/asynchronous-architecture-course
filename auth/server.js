@@ -12,7 +12,7 @@ const jwt = require('jsonwebtoken')
 const path = require('path')
 
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/popug_auth', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(`mongodb://${process.env.DB_URL}/popug_auth`, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const userSchema = new mongoose.Schema({
   login: String,
@@ -33,8 +33,8 @@ db.once('open', function () {
 //   if (err) return console.error(err)
 // })
 
-app.listen(3001, _ => {
-  console.log('listening on 3001')
+app.listen(process.env.PORT, _ => {
+  console.log(`listening on ${process.env.PORT}`)
 })
 
 app.get('/users', (_req, res) => {

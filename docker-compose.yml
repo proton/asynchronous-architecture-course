@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  auth:
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    environment:
+      DB_URL: auth_db:27017
+      PORT: 8001
+    ports:
+      - 8001:8001
+    depends_on:
+      - auth_db
+    networks:
+      - local
+
+  popug_jira:
+    build:
+      context: ./popug_jira
+      dockerfile: Dockerfile
+    volumes:
+      - ./tmp/popug_jira/db.sqlite:/app/db/development.sqlite3
+    ports:
+      - 8002:3000
+    depends_on:
+      - auth
+    networks:
+      - local
+
+  auth_db:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ''
+      MONGO_INITDB_ROOT_PASSWORD: ''
+    volumes:
+      - ./tmp/auth_db/db:/data/db
+    networks:
+      - local
+
+networks:
+  local:
+    driver:
+      bridge
