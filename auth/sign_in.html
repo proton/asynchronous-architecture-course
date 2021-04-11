@@ -117,12 +117,20 @@
           this.token = token
           $cookies.set('auth_token', token)
         },
+        redirectAfterSignIn() {    
+          const redirect_to = $cookies.get('redirect_to')
+          if (!redirect_to) return
+
+          $cookies.set('redirect_to', '')
+          window.location = redirect_to
+        },
         signIn() {
           axios
             .post(`/sign_in`, this.loginData)
             .then(response => {
                 if(response.data.signedIn) {
                   this.setToken(response.data.token)
+                  this.redirectAfterSignIn()
                 } else {
                   this.error = response.data.error
                 }
