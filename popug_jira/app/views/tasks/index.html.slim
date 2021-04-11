@@ -1,5 +1,10 @@
-ul
+table.table
+  tr
+    th Author
+    th Task
   - @tasks.each do |task|
-    li= task.name 
+    tr
+      td= task.author_id
+      td= task.name 
 
-= render 'form' 
+= render 'form'

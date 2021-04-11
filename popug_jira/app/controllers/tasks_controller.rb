@@ -11,6 +11,7 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.new(params[:task].permit(:name))
+    @task.author_id = current_user.id
     if @task.save
       redirect_to tasks_path
     else

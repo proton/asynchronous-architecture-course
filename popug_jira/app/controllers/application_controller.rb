@@ -19,9 +19,9 @@ class ApplicationController < ActionController::Base
     !user_authorised?
   end
 
-  def user_role
+  def current_user
     return nil unless user_authorised?
-    @auth_payload['role']
+    OpenStruct.new(@auth_payload)
   end
 
   def chech_signed_in!
@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
   end
 
   def chech_admin_role!
-    return true if user_role == 'admin'
+    return true if current_user.role == 'admin'
     render_403_forbidden
   end
 
