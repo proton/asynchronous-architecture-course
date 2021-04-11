@@ -22,7 +22,7 @@ class TasksController < ApplicationController
   def chech_admin_role!
     return true if user_role == 'admin'
     return render_403_forbidden if user_authorised?
-    redirect_to ENV['SIGN_IN_URL']
+    redirect_to "#{ENV['SIGN_IN_URL']}?redirect_to=#{full_url_for}"
   end
 
   def render_403_forbidden

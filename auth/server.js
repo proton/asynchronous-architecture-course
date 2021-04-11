@@ -2,6 +2,9 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 
+const cookieParser = require('cookie-parser')
+app.use(cookieParser())
+
 const fs = require('fs')
 
 const privateKey = fs.readFileSync('auth_private.key')
@@ -65,7 +68,10 @@ app.delete('/users/:userId.json', (req, res) => {
   })
 })
 
-app.get('/sign_in', (_req, res) => {
+app.get('/sign_in', (req, res) => {
+  if (req.query.redirect_to) {
+    res.cookie('redirect_to', req.query.redirect_to)
+  }
   res.sendFile(path.join(__dirname + '/sign_in.html'))
 })
 
