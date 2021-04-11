@@ -26,7 +26,11 @@ class ApplicationController < ActionController::Base
 
   def chech_signed_in!
     return if user_authorised?
-    redirect_to "#{ENV['SIGN_IN_URL']}?redirect_to=#{full_url_for}"
+    redirect_to "#{sign_in_url}?redirect_to=#{full_url_for}"
+  end
+
+  def sign_in_url
+    ENV['AUTH_URL'] + '/sign_in'
   end
 
   def chech_admin_role!

@@ -4,7 +4,7 @@ table.table
     th Task
   - @tasks.each do |task|
     tr
-      td= task.author_id
+      td= GetUserInfo.call(task.author_id)&.login || task.author_id
       td= task.name 
 
 = render 'form'

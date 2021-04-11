@@ -51,6 +51,15 @@ app.get('/users.json', (_req, res) => {
   })
 })
 
+app.get('/users/:userId.json', (req, res) => {
+  // TODO: check token
+  const userId = req.params.userId
+  User.findById(userId, (err, doc) => {
+    if (err) return console.error(err)
+    res.send(doc)
+  })
+})
+
 app.post('/users.json', (req, res) => {
   const user = new User(req.body)
   user.save((err, _user) => {
