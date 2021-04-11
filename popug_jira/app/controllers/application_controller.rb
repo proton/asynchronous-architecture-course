@@ -23,4 +23,18 @@ class ApplicationController < ActionController::Base
     return nil unless user_authorised?
     @auth_payload['role']
   end
+
+  def chech_signed_in!
+    return if user_authorised?
+    redirect_to "#{ENV['SIGN_IN_URL']}?redirect_to=#{full_url_for}"
+  end
+
+  def chech_admin_role!
+    return true if user_role == 'admin'
+    render_403_forbidden
+  end
+
+  def render_403_forbidden
+    render status: :forbidden, html: 'Forbidden'
+  end
 end
