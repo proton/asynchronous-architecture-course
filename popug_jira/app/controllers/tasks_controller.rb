@@ -13,6 +13,17 @@ class TasksController < ApplicationController
     @task = Task.new(params[:task].permit(:name))
     @task.author_id = current_user.id
     if @task.save
+
+      event = {
+        event_id: SecureRandom.uuid,
+        event_version: 1,
+        event_time: Time.now.to_s,
+        producer: 'popug_jira',
+        event_name: 'TaskCreated',
+        data: @task.attributes
+      }
+      WaterDrop::SyncProducer.call(event.to_json, topic: 'tasks-stream')
+
       redirect_to tasks_path
     else
       render 'new'
