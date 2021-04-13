@@ -7,6 +7,7 @@ services:
       dockerfile: Dockerfile
     environment:
       SIGN_IN_URL: "http://localhost:8001/sign_in"
+      KAFKA_URL: "broker:29092"
     volumes:
       - ./tmp/popug_jira/db.sqlite:/app/db/development.sqlite3
       - ./private/public.key:/app/config/auth_public.key
@@ -24,6 +25,7 @@ services:
     environment:
       DB_URL: auth_db:27017
       PORT: 8001
+      KAFKA_URL: "broker:29092"
     volumes:
       - ./private/public.key:/app/auth_public.key
       - ./private/public.key:/app/auth_private.key

@@ -13,7 +13,6 @@ class TasksController < ApplicationController
     @task = Task.new(params[:task].permit(:name))
     @task.author_id = current_user.id
     if @task.save
-
       event = {
         event_id: SecureRandom.uuid,
         event_version: 1,

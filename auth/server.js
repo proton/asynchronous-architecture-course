@@ -1,9 +1,13 @@
+const moment = require('moment')
+
 const express = require('express')
 const app = express()
 app.use(express.json())
 
 const cookieParser = require('cookie-parser')
 app.use(cookieParser())
+
+const { v4: uuidv4 } = require('uuid')
 
 const fs = require('fs')
 
@@ -29,6 +33,13 @@ const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', function () {
   console.log('connected to db')
+})
+
+const { Kafka } = require('kafkajs')
+
+const kafka = new Kafka({
+  clientId: 'my-app',
+  brokers: [process.env.KAFKA_URL]
 })
 
 // const admin = new User({ login: 'admin', password: 'password', role: 'admin' })
@@ -62,8 +73,27 @@ app.get('/users/:userId.json', (req, res) => {
 
 app.post('/users.json', (req, res) => {
   const user = new User(req.body)
-  user.save((err, _user) => {
+  user.save(async (err, user) => {
     if (err) return console.error(err)
+
+    const event = {
+      event_id: uuidv4(),
+      event_version: 1,
+      event_time: moment().format(),
+      producer: 'auth',
+      event_name: 'UserCreated',
+      data: user.toObject()
+    }
+
+    const producer = kafka.producer()
+    await producer.connect()
+    await producer.send({
+      topic: 'users-stream',
+      messages: [{value: JSON.stringify(event) }]
+    })
+
+    await producer.disconnect()
+
     res.send('ok')
   })
 })
