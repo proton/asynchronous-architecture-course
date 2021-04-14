@@ -2,6 +2,7 @@
 
 class ApplicationController < ActionController::Base
   before_action :load_auth_info
+  helper_method :current_user
 
   private
 

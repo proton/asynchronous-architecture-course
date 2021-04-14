@@ -1,4 +1,5 @@
-= button_to 'Assign all', assign_all_tasks_path, method: :post
+- if current_user.role.in? %w[manager admin]
+  = button_to 'Assign all', assign_all_tasks_path, method: :post
 
 table.table
   tr
