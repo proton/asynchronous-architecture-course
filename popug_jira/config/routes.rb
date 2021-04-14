@@ -5,5 +5,6 @@ Rails.application.routes.draw do
 
   resources :tasks do
     post :assign_all, on: :collection
+    patch :complete, on: :member
   end
 end

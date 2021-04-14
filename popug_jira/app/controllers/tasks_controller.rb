@@ -41,4 +41,13 @@ class TasksController < ApplicationController
 
     redirect_to tasks_path
   end
+
+  def complete
+    # TODO: event
+    task = Task.find(params[:id])
+    task.completed = true
+    task.save!
+
+    redirect_to tasks_path
+  end
 end

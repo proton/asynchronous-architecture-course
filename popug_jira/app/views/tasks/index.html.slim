@@ -11,11 +11,16 @@ table.table
     th Task
     th Assignee
     th Status
+    th
   - @tasks.each do |task|
     tr
       td= GetUserInfo.call(task.author_id)&.login
       td= task.name 
       td= GetUserInfo.call(task.assignee_id)&.login
       td= task.completed? ? 'Completed' : 'New'
+      td
+        - if task.assigned_on?(current_user) && !task.completed?
+          '
+          = button_to 'Complete', complete_task_path(task), method: :patch
 
 = render 'form'
