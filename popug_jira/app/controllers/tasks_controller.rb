@@ -6,6 +6,7 @@ class TasksController < ApplicationController
 
   def index
     @tasks = Task.all
+    @tasks = @tasks.where(assignee_id: current_user.id) if params[:my]
     @task = Task.new
   end
 
