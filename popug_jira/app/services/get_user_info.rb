@@ -10,10 +10,13 @@ class GetUserInfo
   end
 
   def call
-    url = ENV['AUTH_URL'] + "/users/#{user_id}.json"
-    h = JSON.load(URI.open(url))
+    begin
+      url = ENV['AUTH_URL'] + "/users/#{user_id}.json"
+      h = JSON.load(URI.open(url))
+    rescue
+      h = { id: user_id, login: user_id }
+    end
+    
     OpenStruct.new(h)
-  rescue
-    OpenStruct.new
   end
 end
