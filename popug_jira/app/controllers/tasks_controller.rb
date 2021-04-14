@@ -28,4 +28,16 @@ class TasksController < ApplicationController
       render 'new'
     end
   end
+
+  def assign_all
+    users = GetAllUsers.call
+    tasks = Task.incomplete
+    tasks.each do |task|
+      # TODO: event
+      task.assignee_id = users.sample.id
+      task.save!
+    end
+
+    redirect_to tasks_path
+  end
 end
