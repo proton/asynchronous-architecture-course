@@ -1,9 +1,9 @@
-= link_to 'All tasks', tasks_path
+= link_to 'All tasks', tasks_path, class: 'btn btn-outline-primary'
 '
-= link_to 'My tasks', tasks_path(my: true)
+= link_to 'My tasks', tasks_path(my: true), class: 'btn btn-outline-primary'
 '
 - if current_user.role.in? %w[manager admin]
-  = button_to 'Assign all', assign_all_tasks_path, method: :post
+  = button_to 'Assign all', assign_all_tasks_path, method: :post, class: 'btn btn-warning', form: { style: 'display:inline-block;' }
 
 table.table
   tr
@@ -21,6 +21,6 @@ table.table
       td
         - if task.assigned_on?(current_user) && !task.completed?
           '
-          = button_to 'Complete', complete_task_path(task), method: :patch
+          = button_to 'Complete', complete_task_path(task), method: :patch, class: 'btn btn-success btn-sm'
 
 = render 'form'

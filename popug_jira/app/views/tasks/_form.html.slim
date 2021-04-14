@@ -1,4 +1,4 @@
 div
-  = simple_form_for @task do |f|
-    = f.input :name
-    = f.button :submit
+  = simple_form_for @task, wrapper: :inline_form, html: {class: 'form-inline'} do |f|
+    = f.input :name, wrapper_html: {class: 'form-group col-md-6' }, input_html: {placeholder: 'Name'}, label: false
+    = f.button :submit, class: 'btn btn-primary btn-sm'
