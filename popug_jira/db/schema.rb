@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_13_235342) do
+ActiveRecord::Schema.define(version: 2021_04_23_221806) do
 
   create_table "tasks", force: :cascade do |t|
     t.string "name"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 2021_04_13_235342) do
     t.string "author_id"
     t.string "assignee_id"
     t.boolean "completed", default: false
+    t.integer "assign_cost"
+    t.integer "complete_cost"
   end
 
 end
