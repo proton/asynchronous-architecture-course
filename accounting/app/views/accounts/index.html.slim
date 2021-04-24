@@ -1,0 +1,10 @@
+table.table
+  tr
+    th Author
+    th Balance
+    th
+  - @accounts.each do |account|
+    tr
+      td= GetUserInfo.call(account.user_id)&.login
+      td= account.balance
+      td
