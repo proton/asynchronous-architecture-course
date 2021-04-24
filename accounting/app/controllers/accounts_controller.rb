@@ -2,6 +2,9 @@ class AccountsController < ApplicationController
   before_action :chech_admin_or_accountant_role!
 
   def index
+    today_logs = AccountAuditLog.where('created_at > ?', Date.today)
+    @earned_by_management_today = -today_logs.sum(:delta)
+
     @accounts = Account.all
   end
 

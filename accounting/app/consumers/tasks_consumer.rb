@@ -20,7 +20,7 @@ class TasksConsumer < ApplicationConsumer
 
         account = Account.find_or_create_by(user_id: user_id)
         description = "task '#{task_name}' (#{task_id}) assigned"
-        account.audit_logs.create!(delta: cost, description: description)
+        account.audit_logs.create!(delta: cost, description: description, kind: 'TaskAssigned')
       when 'TaskCompleted'
         cost = data['cost']
         user_id = data['assignee_id']
@@ -29,7 +29,7 @@ class TasksConsumer < ApplicationConsumer
 
         account = Account.find_or_create_by(user_id: user_id)
         description = "task '#{task_name}' (#{task_id}) completed"
-        account.audit_logs.create!(delta: cost, description: description)
+        account.audit_logs.create!(delta: cost, description: description, kind: 'TaskCompleted')
       end
     end
   end
