@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_24_003200) do
+ActiveRecord::Schema.define(version: 2021_04_24_123413) do
 
   create_table "account_audit_logs", force: :cascade do |t|
     t.integer "account_id"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 2021_04_24_003200) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "user_id"
-    t.integer "balance"
+    t.integer "balance", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

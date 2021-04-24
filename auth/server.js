@@ -89,7 +89,7 @@ app.post('/users.json', (req, res) => {
     await producer.connect()
     await producer.send({
       topic: 'users-stream',
-      messages: [{value: JSON.stringify(event) }]
+      messages: [{ value: JSON.stringify(event) }]
     })
 
     await producer.disconnect()
