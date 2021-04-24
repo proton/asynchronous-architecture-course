@@ -1,6 +1,6 @@
 # require '../../models/account.rb'
 
-class UserCreatedConsumer < ApplicationConsumer
+class UsersConsumer < ApplicationConsumer
   def consume
     params_batch.each do |message|
       puts '-' * 80

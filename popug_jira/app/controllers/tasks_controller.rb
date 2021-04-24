@@ -14,16 +14,8 @@ class TasksController < ApplicationController
     @task = Task.new(params[:task].permit(:name))
     @task.author_id = current_user.id
     if @task.save
-      event = {
-        event_id: SecureRandom.uuid,
-        event_version: 1,
-        event_time: Time.now.to_s,
-        producer: 'popug_jira',
-        event_name: 'TaskCreated',
-        data: @task.attributes
-      }
-      WaterDrop::SyncProducer.call(event.to_json, topic: 'tasks-stream')
-
+      GenerateEvent.call('TaskCreated', 'tasks-stream', **@task.attributes)
+      
       redirect_to tasks_path
     else
       render 'new'
@@ -33,20 +25,17 @@ class TasksController < ApplicationController
   def assign_all
     users = GetAllUsers.call
     tasks = Task.incomplete
+    
     tasks.each do |task|
-      # TODO: event
-      task.assignee_id = users.sample.id
-      task.save!
+      task.assign!(users.sample)
     end
 
     redirect_to tasks_path
   end
 
   def complete
-    # TODO: event
     task = Task.find(params[:id])
-    task.completed = true
-    task.save!
+    task.complete!
 
     redirect_to tasks_path
   end

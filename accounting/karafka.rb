@@ -48,7 +48,11 @@ class KarafkaApp < Karafka::App
 
   consumer_groups.draw do
     topic "users-stream" do
-      consumer UserCreatedConsumer
+      consumer UsersConsumer
+    end
+
+    topic "tasks-stream" do
+      consumer TasksConsumer
     end
 
     # consumer_group :bigger_group do
