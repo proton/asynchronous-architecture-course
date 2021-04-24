@@ -3,7 +3,7 @@ class AccountsController < ApplicationController
 
   def index
     today_logs = AccountAuditLog.where('created_at > ?', Date.today)
-    @earned_by_management_today = -today_logs.sum(:delta)
+    @earned_by_management_today = -today_logs.where(kind: %w[TaskCompleted TaskAssigned]).sum(:delta)
 
     @accounts = Account.all
   end
