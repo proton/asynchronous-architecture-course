@@ -8,3 +8,4 @@ table.table
       td= GetUserInfo.call(account.user_id)&.login
       td= account.balance
       td
+        = link_to 'log', log_account_path(account), class: 'btn btn-outline-primary btn-sm'

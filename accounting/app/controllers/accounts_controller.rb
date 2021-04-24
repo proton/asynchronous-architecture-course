@@ -5,6 +5,11 @@ class AccountsController < ApplicationController
     @accounts = Account.all
   end
 
+  def log
+    @account = Account.find(params[:id])
+    @logs = @account.audit_logs
+  end
+
   def my
     account = Account.find_by(user_id: current_user.id)
     render json: { balance: account.balance }

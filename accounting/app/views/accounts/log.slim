@@ -1,0 +1,11 @@
+table.table
+  tr
+    th Delta
+    th Description
+  - @logs.each do |log|
+    tr
+      td
+        code= log.delta
+      td= log.description
+
+= link_to 'Back', root_url, class: 'btn'
